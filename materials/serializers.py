@@ -21,7 +21,6 @@ class CourseListSerializer(serializers.ModelSerializer):
     lesson = LessonSerializer(many=True, source='lesson_set')
     sub = serializers.SerializerMethodField()
 
-
     class Meta:
         validators = [ValidateYoutubeUrl(fields='link')]
         model = Course
@@ -36,7 +35,6 @@ class CourseListSerializer(serializers.ModelSerializer):
             return True
         else:
             return False
-
 
 
 class CourseSerializer(serializers.ModelSerializer):

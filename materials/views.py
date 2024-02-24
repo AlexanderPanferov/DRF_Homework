@@ -71,7 +71,6 @@ class LessonDestroyView(generics.DestroyAPIView):
 class SubViewSet(viewsets.ModelViewSet):
     serializer_class = SubSerializer
     queryset = Subscription.objects.all()
-    pagination_class = [AllowAny]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
