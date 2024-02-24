@@ -1,8 +1,8 @@
 from rest_framework import viewsets, generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from materials.models import Course, Lesson
-from materials.serializers import CourseSerializer, LessonSerializer, CourseListSerializer
+from materials.models import Course, Lesson, Subscription
+from materials.serializers import CourseSerializer, LessonSerializer, CourseListSerializer, SubSerializer
 from users.permissions import IsOwner, IsModerator
 
 
@@ -63,3 +63,13 @@ class LessonUpdateView(generics.UpdateAPIView):
 class LessonDestroyView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
+
+
+class SubViewSet(viewsets.ModelViewSet):
+    serializer_class = SubSerializer
+    queryset = Subscription.objects.all()
+    pagination_class = [AllowAny]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
