@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from materials.models import Course, Lesson
+from materials.validators import ValidateYoutubeUrl
 
 
 class LessonSerializer(serializers.ModelSerializer):
@@ -14,6 +15,7 @@ class CourseListSerializer(serializers.ModelSerializer):
     lesson = LessonSerializer(many=True, source='lesson_set')
 
     class Meta:
+        validators = [ValidateYoutubeUrl(fields='link')]
         model = Course
         fields = '__all__'
 
