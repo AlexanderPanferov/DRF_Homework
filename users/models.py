@@ -35,7 +35,7 @@ class Payments(models.Model):
     date_payment = models.DateTimeField(auto_now_add=True, verbose_name='дата оплаты')
     paid_course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='оплаченный курс', **NULLABLE)
     paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='оплаченный урок', **NULLABLE)
-    payment_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='сумма оплаты')
+    payment_amount = models.DecimalField(max_digits=10, decimal_places=0, verbose_name='сумма оплаты')
     payment_method = models.CharField(max_length=50, choices=payment_method, verbose_name='способ оплаты')
 
     def __str__(self):
