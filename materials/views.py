@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from materials.models import Course, Lesson, Subscription
 from materials.paginators import LessonPaginator, CoursePaginator
 from materials.serializers import CourseSerializer, LessonSerializer, CourseListSerializer, SubSerializer
+from materials.tasks import send_mail_course_update
 from users.permissions import IsOwner, IsModerator
 
 
@@ -25,8 +26,8 @@ class CourseViewSet(viewsets.ModelViewSet):
             'create': [IsAuthenticated, ~IsModerator],
             'list': [IsAuthenticated, IsModerator | IsOwner],
             'retrieve': [IsAuthenticated, IsModerator | IsOwner],
-            'update': [IsAuthenticated, IsModerator | IsOwner],
-            'partial_update': [IsAuthenticated, IsModerator | IsOwner],
+            'update': [IsAuthenticated],
+            'partial_update': [IsAuthenticated],
             'destroy': [IsAuthenticated, IsOwner]
         }
         self.permission_classes = permissions_map.get(self.action, [])
@@ -34,6 +35,10 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def perform_update(self, serializer):
+        course = serializer.save()
+        send_mail_course_update.delay(course.id)
 
 
 class LessonDetailView(generics.RetrieveAPIView):
@@ -74,4 +79,3 @@ class SubViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-

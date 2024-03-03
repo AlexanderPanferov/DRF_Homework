@@ -3,7 +3,7 @@ from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from users.models import Payments, User
 from users.serializers import PaymentsSerializer, UserSerializer, UserCreateSerializer
 
@@ -52,6 +52,7 @@ class PaymentCreateAPIView(generics.CreateAPIView):
 class UserCreateView(generics.CreateAPIView):
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()
+    permission_classes = [AllowAny]
 
 
 class UserListView(generics.ListAPIView):
