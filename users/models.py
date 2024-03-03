@@ -38,6 +38,11 @@ class Payments(models.Model):
     payment_amount = models.DecimalField(max_digits=10, decimal_places=0, verbose_name='сумма оплаты')
     payment_method = models.CharField(max_length=50, choices=payment_method, verbose_name='способ оплаты')
 
+    stripe_id = models.CharField(max_length=255, blank=True, null=True)
+    payment_link = models.URLField(max_length=5000, blank=True, null=True)
+
+
+
     def __str__(self):
         return f'{self.user} ({self.date_payment})'
 
