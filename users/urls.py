@@ -7,6 +7,7 @@ from users.views import PaymentsListAPIView, UserCreateView, UserListView, UserR
 
 app_name = UsersConfig.name
 
+
 urlpatterns = [
     path('payments/', PaymentsListAPIView.as_view(), name='payments-list'),
     path('payments/create/', PaymentCreateAPIView.as_view(), name='payments-create'),
