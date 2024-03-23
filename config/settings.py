@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'DRF_Homework',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '95627102',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'mysecretpassword',
+        'HOST': 'db',
         'PORT': 5432
     }
 }
